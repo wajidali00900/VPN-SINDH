@@ -1,18 +1,11 @@
 {
-  "name": "vpn-sindh",
-  "short_name": "vpn-sindh",
-  "start_url": "/",
+  "background_color": "#0a1a12",
+  "dir": "ltr",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "name": "Sindh vpn",
   "orientation": "any",
   "scope": "/",
-  "dir": "ltr",
-  "icons": [
-    {
-      "src": "/icon.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+  "short_name": "vpn sindh",
+  "start_url": "/",
+  "theme_color": "#0d9b4d"
 }
