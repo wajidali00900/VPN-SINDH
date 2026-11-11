@@ -1,11 +1,25 @@
 {
-  "background_color": "#0a1a12",
-  "dir": "ltr",
-  "display": "standalone",
-  "name": "Sindh vpn",
-  "orientation": "any",
-  "scope": "/",
-  "short_name": "vpn sindh",
+  "name": "Sindh VPN",
+  "short_name": "Sindh VPN",
+  "description": "Fast and secure free VPN for Sindh, Pakistan. Safe browsing and unblock websites.",
   "start_url": "/",
-  "theme_color": "#0d9b4d"
+  "display": "standalone",
+  "background_color": "#0a1a12",
+  "theme_color": "#0d9b4d",
+  "orientation": "portrait",
+  "dir": "ltr",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
