@@ -1,11 +1,16 @@
 {
-  "background_color": "#000000",
-  "dir": "ltr",
-  "display": "standalone",
-  "name": "vpn sindh",
-  "orientation": "any",
-  "scope": "/",
-  "short_name": "vpn sindh",
+  "name": "VPN Sindh",
+  "short_name": "VPNSindh",
   "start_url": "/",
-  "theme_color": "#000000"
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "description": "A fast and secure VPN application for users in Sindh to browse safely and privately.",
+  "icons": [
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
