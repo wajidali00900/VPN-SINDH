@@ -294,15 +294,12 @@
         <span id="upSpeed">0.0 Mbps</span>
       </div>
     </div>
-
-    <div class="server-selector">
-      <select id="serverSelect">
-        <option value="us">🇺🇸 United States Node</option>
-        <option value="sg">🇸🇬 Singapore Node</option>
-        <option value="de">🇩🇪 Germany Node</option>
-        <option value="uk">🇬🇧 United Kingdom Node</option>
-      </select>
-    </div>
+<div class="server-selector">
+  <select id="serverSelect">
+    <option>Loading servers...</option>
+  </select>
+</div>
+<p style="text-align:center; font-size:13px; margin-top:8px;">Ye VPN Duniya Ke In Sab Mulkon Me Chalega</p>>
 
     <div class="modal" id="policyModal">
       <h2>Privacy Policy - VPN SINDH</h2>
@@ -356,6 +353,18 @@
 
     openPolicy.addEventListener('click', () => policyModal.classList.add('active'));
     closePolicy.addEventListener('click', () => policyModal.classList.remove('active'));
+    fetch('servers.json')
+  .then(r => r.json())
+  .then(list => {
+    const sel = document.getElementById('serverSelect');
+    sel.innerHTML = '';
+    list.forEach(s => {
+      const o = document.createElement('option');
+      o.value = s.server;
+      o.textContent = s.flag + ' ' + s.name + ' - Is mulk me chalega';
+      sel.appendChild(o);
+    });
+  });
   </script>
 </body>
 </html>
