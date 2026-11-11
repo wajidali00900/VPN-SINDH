@@ -1,5 +1,5 @@
 {
-  "background_color": "#ffffff",
+  "background_color": "#000000",
   "dir": "ltr",
   "display": "standalone",
   "name": "vpn sindh",
@@ -7,5 +7,5 @@
   "scope": "/",
   "short_name": "vpn sindh",
   "start_url": "/",
-  "theme_color": "#ffffff"
+  "theme_color": "#000000"
 }
