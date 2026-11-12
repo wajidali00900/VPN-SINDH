@@ -18,22 +18,24 @@
             justify-content: space-between;
             min-height: 95vh;
         }
+        /* Top Left Menu Button Bar */
         .header-bar {
             width: 100%;
             max-width: 380px;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         .menu-btn {
             background: rgba(255, 255, 255, 0.1);
             border: none;
             color: #fff;
-            padding: 8px 12px;
+            padding: 8px 14px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
+            font-weight: bold;
         }
         .container {
             background: rgba(255, 255, 255, 0.05);
@@ -46,9 +48,9 @@
         }
         h2 { margin: 0 0 10px 0; color: #38bdf8; }
         .timer {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 15px 0;
             color: #f8fafc;
             letter-spacing: 2px;
         }
@@ -84,7 +86,21 @@
             font-size: 13px;
             color: #cbd5e1;
         }
-        /* Sidebar / Drawer Styles */
+        .settings-box {
+            margin-top: 15px;
+            text-align: left;
+            font-size: 13px;
+            background: rgba(255,255,255,0.05);
+            padding: 12px;
+            border-radius: 8px;
+            color: #cbd5e1;
+        }
+        .settings-box label {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        /* Sidebar Styles */
         .sidebar {
             height: 100%;
             width: 0;
@@ -118,32 +134,16 @@
             color: #fff;
             cursor: pointer;
         }
-        .settings-box {
-            margin-top: 15px;
-            text-align: left;
-            font-size: 13px;
-            background: rgba(255,255,255,0.05);
-            padding: 10px;
-            border-radius: 8px;
-            color: #cbd5e1;
-        }
-        .settings-box label {
-            display: block;
-            margin-bottom: 6px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Top Header with Menu Button -->
+    <!-- Top Left Menu Button Bar -->
     <div class="header-bar">
         <button class="menu-btn" onclick="openNav()">☰ Menu</button>
-        <span style="font-weight: bold; color: #38bdf8;">VPN Sindh</span>
-        <div style="width: 40px;"></div>
     </div>
 
-    <!-- Side Navigation Drawer -->
+    <!-- Side Navigation Menu -->
     <div id="mySidebar" class="sidebar">
         <button class="close-btn" onclick="closeNav()">&times;</button>
         <h3 style="color: #38bdf8; padding: 0 20px; margin-bottom: 20px;">Super Options</h3>
@@ -165,9 +165,10 @@
             <option value="auto">Loading servers...</option>
         </select>
 
+        <!-- Connect Button -->
         <button id="connectBtn" onclick="toggleConnect()">CONNECT NOW</button>
 
-        <!-- Settings Options (TCP & Proxy Google Service) -->
+        <!-- Settings Options -->
         <div class="settings-box">
             <label><input type="checkbox" id="tcpMode"> Enable TCP Mode</label>
             <label><input type="checkbox" id="proxyGoogle"> Proxy Google Play Service</label>
@@ -237,6 +238,7 @@
             document.getElementById('upSpeed').innerText = (Math.random() * (150 - 40) + 40).toFixed(1) + ' KB/s';
         }
 
+        // Ad Trigger Function (Har connect par aik ad chalega)
         function triggerDirectAd() {
             window.open('https://uplpx.com/4/12246853', '_blank');
         }
@@ -252,6 +254,7 @@
                 btn.style.background = '#451a03';
                 status.innerText = `Connecting to ${selectedServerName}...`;
 
+                // Yahan har bar CONNECT dabane par ad trigger hoga
                 triggerDirectAd();
 
                 setTimeout(() => {
