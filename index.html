@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VPN Sindh - Free & Fast</title>
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="manifest.json">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -18,15 +18,31 @@
             justify-content: space-between;
             min-height: 95vh;
         }
+        .header-bar {
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
         .container {
-            background: rgba(255, 255, 255, 0.06);
-            padding: 25px;
-            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 16px;
             width: 100%;
             max-width: 380px;
             text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-            margin-top: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
         h2 { margin: 0 0 10px 0; color: #38bdf8; }
         .timer {
@@ -50,7 +66,7 @@
             font-size: 16px;
         }
         select { background: #334155; color: #fff; outline: none; }
-        button {
+        button#connectBtn {
             background: #0ea5e9;
             color: #fff;
             font-weight: bold;
@@ -58,7 +74,7 @@
             transition: 0.3s;
             box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
         }
-        button:active { transform: scale(0.98); }
+        button#connectBtn:active { transform: scale(0.98); }
         .stats {
             display: flex;
             justify-content: space-around;
@@ -68,45 +84,99 @@
             font-size: 13px;
             color: #cbd5e1;
         }
-        .ad-box {
-            width: 100%;
-            max-width: 380px;
-            min-height: 60px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px dashed #475569;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #64748b;
-            font-size: 12px;
-            margin-bottom: 10px;
+        /* Sidebar / Drawer Styles */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 10;
+            top: 0;
+            left: 0;
+            background-color: #1e293b;
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 60px;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+        }
+        .sidebar a {
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #cbd5e1;
+            display: block;
+            transition: 0.2s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .sidebar a:hover { background-color: #334155; color: #38bdf8; }
+        .sidebar .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+        .settings-box {
+            margin-top: 15px;
+            text-align: left;
+            font-size: 13px;
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 8px;
+            color: #cbd5e1;
+        }
+        .settings-box label {
+            display: block;
+            margin-bottom: 6px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
+    <!-- Top Header with Menu Button -->
+    <div class="header-bar">
+        <button class="menu-btn" onclick="openNav()">☰ Menu</button>
+        <span style="font-weight: bold; color: #38bdf8;">VPN Sindh</span>
+        <div style="width: 40px;"></div>
+    </div>
+
+    <!-- Side Navigation Drawer -->
+    <div id="mySidebar" class="sidebar">
+        <button class="close-btn" onclick="closeNav()">&times;</button>
+        <h3 style="color: #38bdf8; padding: 0 20px; margin-bottom: 20px;">Super Options</h3>
+        <a href="#" onclick="alert('Smart Proxy is active')">⚡ Smart Proxy</a>
+        <a href="#" onclick="shareApp()">🔗 Share App</a>
+        <a href="#" onclick="alert('Thank you for rating us!')">⭐ Rate Us</a>
+        <a href="#" onclick="alert('VPN Sindh provides fast and secure connection.')">❓ FAQ</a>
+        <a href="#" onclick="alert('VPN Sindh v1.0 - All rights reserved')">ℹ️ About</a>
+    </div>
+
     <div class="container">
-        <h2>🛡️ VPN Sindh</h2>
+        <h2>VPN Sindh</h2>
         <div class="timer" id="timerDisplay">00:00:00</div>
         <p class="status" id="statusText">Status: Not Connected</p>
 
-        <label for="serverSelect" style="display:block; text-align:left; font-size:12px; color:#94a3b8;">Choose Fast Server:</label>
+        <!-- Server List -->
+        <label style="display: block; text-align: left; font-size: 12px; color: #94a3b8; margin-bottom: 5px;">Choose Server Location</label>
         <select id="serverSelect">
-            <option value="">Loading servers...</option>
+            <option value="auto">Loading servers...</option>
         </select>
 
         <button id="connectBtn" onclick="toggleConnect()">CONNECT NOW</button>
 
-        <div class="stats">
-            <div>⬇️ Download: <span id="downSpeed">0.0 KB/s</span></div>
-            <div>⬆️ Upload: <span id="upSpeed">0.0 KB/s</span></div>
+        <!-- Settings Options (TCP & Proxy Google Service) -->
+        <div class="settings-box">
+            <label><input type="checkbox" id="tcpMode"> Enable TCP Mode</label>
+            <label><input type="checkbox" id="proxyGoogle"> Proxy Google Play Service</label>
         </div>
-    </div>
 
-    <!-- YAHAN AAPKA BANNER AD CODE AAYEGA -->
-    <div class="ad-box" id="bannerAdSlot">
-        Ad Space (Yahan Adsterra/Monetag Banner Code Lagayein)
+        <div class="stats">
+            <div>Download: <span id="downSpeed">0.0 KB/s</span></div>
+            <div>Upload: <span id="upSpeed">0.0 KB/s</span></div>
+        </div>
     </div>
 
     <script>
@@ -114,16 +184,34 @@
         let timerInterval;
         let seconds = 0;
 
-        // servers.json se server list load karna
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        function shareApp() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'VPN Sindh',
+                    text: 'Download fast VPN Sindh app!',
+                    url: window.location.href,
+                }).catch(() => {});
+            } else {
+                alert('App Link: ' + window.location.href);
+            }
+        }
+
         async function loadServers() {
             const select = document.getElementById('serverSelect');
             try {
-                const response = await fetch('/servers.json');
+                const response = await fetch('servers.json');
                 const data = await response.json();
                 select.innerHTML = '';
-                
-                const serverList = data.servers || data; 
-                serverList.forEach((srv, index) => {
+                const serverlist = data.servers || data;
+                serverlist.forEach((srv, index) => {
                     const option = document.createElement('option');
                     option.value = index;
                     option.text = srv.name || srv.country || `Free Server ${index + 1}`;
@@ -131,9 +219,9 @@
                 });
             } catch (error) {
                 select.innerHTML = `
-                    <option value="sg">⚡ Singapore Free Node (Fast)</option>
-                    <option value="de">🚀 Germany High Speed Node</option>
-                    <option value="us">🌐 US Secure Node</option>
+                    <option value="sg">🇸🇬 Singapore Free Node (Fast)</option>
+                    <option value="de">🇩🇪 Germany High Speed Node</option>
+                    <option value="us">🇺🇸 US Secure Node</option>
                 `;
             }
         }
@@ -144,29 +232,26 @@
             const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
             const secs = String(seconds % 60).padStart(2, '0');
             document.getElementById('timerDisplay').innerText = `${hrs}:${mins}:${secs}`;
-            
-            // Live speed simulation
+
             document.getElementById('downSpeed').innerText = (Math.random() * (450 - 120) + 120).toFixed(1) + ' KB/s';
             document.getElementById('upSpeed').innerText = (Math.random() * (150 - 40) + 40).toFixed(1) + ' KB/s';
         }
 
         function triggerDirectAd() {
-    window.open('https://uplcm.com/4/12246853', '_blank');
+            window.open('https://uplpx.com/4/12246853', '_blank');
         }
-        
 
         function toggleConnect() {
             const btn = document.getElementById('connectBtn');
             const status = document.getElementById('statusText');
             const select = document.getElementById('serverSelect');
             const selectedServerName = select.options[select.selectedIndex].text;
-            
+
             if (!isConnected) {
                 btn.innerText = 'CONNECTING...';
-                btn.style.background = '#f59e0b';
+                btn.style.background = '#451a03';
                 status.innerText = `Connecting to ${selectedServerName}...`;
-                
-                // Connect click par ad trigger
+
                 triggerDirectAd();
 
                 setTimeout(() => {
@@ -184,7 +269,7 @@
                 document.getElementById('timerDisplay').innerText = '00:00:00';
                 document.getElementById('downSpeed').innerText = '0.0 KB/s';
                 document.getElementById('upSpeed').innerText = '0.0 KB/s';
-                
+
                 btn.style.background = '#0ea5e9';
                 btn.innerText = 'CONNECT NOW';
                 status.innerText = 'Status: Not Connected';
