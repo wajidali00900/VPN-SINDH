@@ -1,388 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VPN SINDH - Secure & Fast</title>
-  <link rel="manifest" href="/manifest.json">
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js').catch(() => {});
-    });
-  }
-</script>
-
-
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js').catch(() => {});
-    });
-  }
-</script>
-  
-  <style>
-    :root {
-      --ajrak-red: #8b0000;
-      --ajrak-blue: #002366;
-      --ajrak-black: #121212;
-      --ajrak-gold: #d4af37;
-      --card-bg: #1a1e29;
-      --text-main: #f8fafc;
-      --text-sub: #94a3b8;
-      --connected-color: #10b981;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-      background-color: var(--ajrak-black);
-      color: var(--text-main);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    .app-container {
-      width: 100%;
-      max-width: 400px;
-      height: 100vh;
-      max-height: 800px;
-      background: var(--card-bg);
-      border-radius: 24px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.8);
-      position: relative;
-      overflow: hidden;
-      border: 2px solid var(--ajrak-red);
-    }
-
-    .map-bg {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      opacity: 0.08;
-      background-image: 
-        radial-gradient(circle at 50% 40%, var(--ajrak-gold) 2px, transparent 2px),
-        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
-      background-size: 30px 30px, 40px 40px, 40px 40px;
-      pointer-events: none;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 2;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(139, 0, 0, 0.4);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo-icon {
-      width: 44px;
-      height: 44px;
-      background: var(--ajrak-red);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 22px;
-      color: white;
-      border: 2px solid var(--ajrak-gold);
-      box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-    }
-
-    .brand h1 {
-      font-size: 20px;
-      letter-spacing: 1.5px;
-      color: var(--ajrak-gold);
-    }
-
-    .policy-btn {
-      background: var(--ajrak-blue);
-      border: 1px solid var(--ajrak-gold);
-      color: var(--text-main);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    .map-status {
-      text-align: center;
-      z-index: 2;
-      margin-top: -10px;
-    }
-    
-    .map-status span {
-      font-size: 11px;
-      color: var(--ajrak-gold);
-      letter-spacing: 1px;
-      background: rgba(0,0,0,0.4);
-      padding: 4px 10px;
-      border-radius: 10px;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-    }
-
-    .connect-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      z-index: 2;
-    }
-
-    .power-btn {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      border: 4px solid var(--ajrak-red);
-      background: radial-gradient(circle, var(--ajrak-blue), var(--ajrak-black));
-      color: var(--ajrak-gold);
-      font-size: 48px;
-      cursor: pointer;
-      box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .power-btn.connected {
-      border-color: var(--connected-color);
-      background: radial-gradient(circle, #047857, #064e3b);
-      color: white;
-      box-shadow: 0 0 35px rgba(16, 185, 129, 0.6);
-    }
-
-    .power-btn.connecting {
-      border-color: var(--ajrak-gold);
-      background: radial-gradient(circle, #b45309, #78350f);
-      color: white;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    .status-text {
-      font-size: 16px;
-      font-weight: bold;
-      color: var(--text-sub);
-      letter-spacing: 2px;
-    }
-
-    .status-text.connected {
-      color: var(--connected-color);
-    }
-
-    .stats-card {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      background: rgba(0, 35, 102, 0.3);
-      padding: 16px;
-      border-radius: 16px;
-      border: 1px solid rgba(139, 0, 0, 0.3);
-      z-index: 2;
-    }
-
-    .stat-box {
-      text-align: center;
-    }
-
-    .stat-box p {
-      font-size: 11px;
-      color: var(--text-sub);
-    }
-
-    .stat-box span {
-      font-size: 16px;
-      font-weight: bold;
-      color: var(--ajrak-gold);
-    }
-
-    .server-selector {
-      background: var(--ajrak-blue);
-      padding: 12px 18px;
-      border-radius: 16px;
-      border: 1px solid var(--ajrak-gold);
-      z-index: 2;
-    }
-
-    select {
-      background: transparent;
-      border: none;
-      color: var(--text-main);
-      font-size: 15px;
-      font-weight: bold;
-      outline: none;
-      width: 100%;
-      cursor: pointer;
-    }
-
-    .modal {
-      display: none;
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: var(--card-bg);
-      padding: 24px;
-      z-index: 10;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .modal.active {
-      display: flex;
-    }
-
-    .modal h2 {
-      font-size: 18px;
-      color: var(--ajrak-gold);
-    }
-
-    .modal p {
-      font-size: 13px;
-      color: var(--text-sub);
-      line-height: 1.6;
-    }
-
-    .close-btn {
-      margin-top: auto;
-      background: var(--ajrak-red);
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 12px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPN Sindh - Secure & Fast</title>
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        h2 { margin-bottom: 15px; color: #38bdf8; }
+        select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+        }
+        select { background: #334155; color: #fff; }
+        button {
+            background: #0ea5e9;
+            color: #white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover { background: #0284c7; }
+        .status {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="app-container">
-    <div class="map-bg"></div>
+    <div class="container">
+        <h2>VPN Sindh</h2>
+        <p class="status" id="statusText">Status: Disconnected</p>
 
-    <header>
-      <div class="brand">
-        <div class="logo-icon"><img src="icon-512.png" style="width:100%; height:100%; object-fit:cover;"></div>
-        <h1>VPN SINDH</h1>
-      </div>
-      <button class="policy-btn" id="openPolicy">Privacy</button>
-    </header>
+        <label for="serverSelect" style="display:block; text-align:left; font-size:12px; margin-top:10px;">Select Server:</label>
+        <select id="serverSelect">
+            <option value="sg">⚡ Singapore Free Node (Fast)</option>
+            <option value="de">🚀 Germany High Speed Node</option>
+            <option value="us">🌐 US Secure Node</option>
+        </select>
 
-    <div class="map-status">
-      <span>LOCATION: KARACHI NODE (SINDH)</span>
+        <button id="connectBtn" onclick="toggleConnect()">CONNECT</button>
     </div>
 
-    <div class="connect-section">
-      <button class="power-btn" id="powerBtn">⏻</button>
-      <div class="status-text" id="statusText">DISCONNECTED</div>
-    </div>
-
-    <div class="stats-card">
-      <div class="stat-box">
-        <p>DOWNLOAD</p>
-        <span id="downSpeed">0.0 Mbps</span>
-      </div>
-      <div class="stat-box">
-        <p>UPLOAD</p>
-        <span id="upSpeed">0.0 Mbps</span>
-      </div>
-    </div>
-<div class="server-selector">
-  <select id="serverSelect">
-    <option>Loading servers...</option>
-  </select>
-</div>
-<p style="text-align:center; font-size:13px; margin-top:8px;">Ye VPN Duniya Ke In Sab Mulkon Me Chalega</p>>
-
-    <div class="modal" id="policyModal">
-      <h2>Privacy Policy - VPN SINDH</h2>
-      <p>VPN SINDH complies with Google Play Store Developer Policies. We respect user privacy and adhere to a strict No-Logs policy.</p>
-      <p>1. <strong>No Data Logging:</strong> Browsing activity aur personal IP addresses ko bilkul store ya monitor nahi kiya jata.</p>
-      <p>2. <strong>VpnService Protocol:</strong> Network connections end-to-end encryption tunneling ke zariye pass hotay hain.</p>
-      <button class="close-btn" id="closePolicy">Close Policy</button>
-    </div>
-  </div>
-
-  <script>
-    const powerBtn = document.getElementById('powerBtn');
-    const statusText = document.getElementById('statusText');
-    const downSpeed = document.getElementById('downSpeed');
-    const upSpeed = document.getElementById('upSpeed');
-    const policyModal = document.getElementById('policyModal');
-    const openPolicy = document.getElementById('openPolicy');
-    const closePolicy = document.getElementById('closePolicy');
-
-    let isConnected = false;
-    let speedInterval;
-
-    powerBtn.addEventListener('click', () => {
-      if (!isConnected) {
-        powerBtn.className = 'power-btn connecting';
-        statusText.innerText = 'CONNECTING...';
-        statusText.className = 'status-text';
-
-        setTimeout(() => {
-          isConnected = true;
-          powerBtn.className = 'power-btn connected';
-          statusText.innerText = 'CONNECTED';
-          statusText.className = 'status-text connected';
-
-          speedInterval = setInterval(() => {
-            downSpeed.innerText = (Math.random() * (48 - 15) + 15).toFixed(1) + ' Mbps';
-            upSpeed.innerText = (Math.random() * (18 - 6) + 6).toFixed(1) + ' Mbps';
-          }, 2000);
-        }, 1500);
-
-      } else {
-        clearInterval(speedInterval);
-        isConnected = false;
-        powerBtn.className = 'power-btn';
-        statusText.innerText = 'DISCONNECTED';
-        statusText.className = 'status-text';
-        downSpeed.innerText = '0.0 Mbps';
-        upSpeed.innerText = '0.0 Mbps';
-      }
-    });
-
-    openPolicy.addEventListener('click', () => policyModal.classList.add('active'));
-    closePolicy.addEventListener('click', () => policyModal.classList.remove('active'));
-    fetch('servers.json')
-  .then(r => r.json())
-  .then(list => {
-    const sel = document.getElementById('serverSelect');
-    sel.innerHTML = '';
-    list.forEach(s => {
-      const o = document.createElement('option');
-      o.value = s.server;
-      o.textContent = s.flag + ' ' + s.name + ' - Is mulk me chalega';
-      sel.appendChild(o);
-    });
-  });
-  </script>
+    <script>
+        let isConnected = false;
+        function toggleConnect() {
+            const btn = document.getElementById('connectBtn');
+            const status = document.getElementById('statusText');
+            
+            if (!isConnected) {
+                btn.style.background = '#ef4444';
+                btn.innerText = 'DISCONNECT';
+                status.innerText = 'Status: Connected (Secure)';
+                status.style.color = '#4ade80';
+                isConnected = true;
+            } else {
+                btn.style.background = '#0ea5e9';
+                btn.innerText = 'CONNECT';
+                status.innerText = 'Status: Disconnected';
+                status.style.color = '#94a3b8';
+                isConnected = false;
+            }
+        }
+    </script>
 </body>
 </html>
