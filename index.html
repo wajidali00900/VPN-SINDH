@@ -3,91 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VPN Sindh - Secure & Fast</title>
+    <title>VPN Sindh - Free & Fast</title>
     <link rel="manifest" href="/manifest.json">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #0f172a, #1e293b);
             color: #fff;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            justify-content: space-between;
+            min-height: 95vh;
         }
         .container {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.06);
             padding: 25px;
-            border-radius: 15px;
+            border-radius: 18px;
             width: 100%;
             max-width: 380px;
             text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            margin-top: 20px;
         }
-        h2 { margin-bottom: 15px; color: #38bdf8; }
+        h2 { margin: 0 0 10px 0; color: #38bdf8; }
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #f8fafc;
+            letter-spacing: 2px;
+        }
+        .status {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 15px;
+        }
         select, button {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             margin: 10px 0;
-            border-radius: 8px;
+            border-radius: 10px;
             border: none;
             font-size: 16px;
         }
-        select { background: #334155; color: #fff; }
+        select { background: #334155; color: #fff; outline: none; }
         button {
             background: #0ea5e9;
-            color: #white;
+            color: #fff;
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
         }
-        button:hover { background: #0284c7; }
-        .status {
+        button:active { transform: scale(0.98); }
+        .stats {
+            display: flex;
+            justify-content: space-around;
             margin-top: 15px;
-            font-size: 14px;
-            color: #94a3b8;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+        .ad-box {
+            width: 100%;
+            max-width: 380px;
+            min-height: 60px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px dashed #475569;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>VPN Sindh</h2>
-        <p class="status" id="statusText">Status: Disconnected</p>
+        <h2>🛡️ VPN Sindh</h2>
+        <div class="timer" id="timerDisplay">00:00:00</div>
+        <p class="status" id="statusText">Status: Not Connected</p>
 
-        <label for="serverSelect" style="display:block; text-align:left; font-size:12px; margin-top:10px;">Select Server:</label>
+        <label for="serverSelect" style="display:block; text-align:left; font-size:12px; color:#94a3b8;">Choose Fast Server:</label>
         <select id="serverSelect">
-            <option value="sg">⚡ Singapore Free Node (Fast)</option>
-            <option value="de">🚀 Germany High Speed Node</option>
-            <option value="us">🌐 US Secure Node</option>
+            <option value="">Loading servers...</option>
         </select>
 
-        <button id="connectBtn" onclick="toggleConnect()">CONNECT</button>
+        <button id="connectBtn" onclick="toggleConnect()">CONNECT NOW</button>
+
+        <div class="stats">
+            <div>⬇️ Download: <span id="downSpeed">0.0 KB/s</span></div>
+            <div>⬆️ Upload: <span id="upSpeed">0.0 KB/s</span></div>
+        </div>
+    </div>
+
+    <!-- YAHAN AAPKA BANNER AD CODE AAYEGA -->
+    <div class="ad-box" id="bannerAdSlot">
+        Ad Space (Yahan Adsterra/Monetag Banner Code Lagayein)
     </div>
 
     <script>
         let isConnected = false;
+        let timerInterval;
+        let seconds = 0;
+
+        // servers.json se server list load karna
+        async function loadServers() {
+            const select = document.getElementById('serverSelect');
+            try {
+                const response = await fetch('/servers.json');
+                const data = await response.json();
+                select.innerHTML = '';
+                
+                const serverList = data.servers || data; 
+                serverList.forEach((srv, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.text = srv.name || srv.country || `Free Server ${index + 1}`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                select.innerHTML = `
+                    <option value="sg">⚡ Singapore Free Node (Fast)</option>
+                    <option value="de">🚀 Germany High Speed Node</option>
+                    <option value="us">🌐 US Secure Node</option>
+                `;
+            }
+        }
+
+        function updateTimer() {
+            seconds++;
+            const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+            const secs = String(seconds % 60).padStart(2, '0');
+            document.getElementById('timerDisplay').innerText = `${hrs}:${mins}:${secs}`;
+            
+            // Live speed simulation
+            document.getElementById('downSpeed').innerText = (Math.random() * (450 - 120) + 120).toFixed(1) + ' KB/s';
+            document.getElementById('upSpeed').innerText = (Math.random() * (150 - 40) + 40).toFixed(1) + ' KB/s';
+        }
+
+        function triggerDirectAd() {
+            // Jab aap Adsterra/Monetag ka Direct Link banayein, toh neeche wali line se '//' hata kar apna link daal dein:
+            // window.open('https://YOUR-ADSTERRA-DIRECT-LINK.com', '_blank');
+        }
+
         function toggleConnect() {
             const btn = document.getElementById('connectBtn');
             const status = document.getElementById('statusText');
+            const select = document.getElementById('serverSelect');
+            const selectedServerName = select.options[select.selectedIndex].text;
             
             if (!isConnected) {
-                btn.style.background = '#ef4444';
-                btn.innerText = 'DISCONNECT';
-                status.innerText = 'Status: Connected (Secure)';
-                status.style.color = '#4ade80';
-                isConnected = true;
+                btn.innerText = 'CONNECTING...';
+                btn.style.background = '#f59e0b';
+                status.innerText = `Connecting to ${selectedServerName}...`;
+                
+                // Connect click par ad trigger
+                triggerDirectAd();
+
+                setTimeout(() => {
+                    btn.style.background = '#ef4444';
+                    btn.innerText = 'DISCONNECT';
+                    status.innerText = `Connected: ${selectedServerName}`;
+                    status.style.color = '#4ade80';
+                    isConnected = true;
+                    select.disabled = true;
+                    timerInterval = setInterval(updateTimer, 1000);
+                }, 1500);
             } else {
+                clearInterval(timerInterval);
+                seconds = 0;
+                document.getElementById('timerDisplay').innerText = '00:00:00';
+                document.getElementById('downSpeed').innerText = '0.0 KB/s';
+                document.getElementById('upSpeed').innerText = '0.0 KB/s';
+                
                 btn.style.background = '#0ea5e9';
-                btn.innerText = 'CONNECT';
-                status.innerText = 'Status: Disconnected';
+                btn.innerText = 'CONNECT NOW';
+                status.innerText = 'Status: Not Connected';
                 status.style.color = '#94a3b8';
+                select.disabled = false;
                 isConnected = false;
             }
         }
+
+        window.onload = loadServers;
     </script>
 </body>
 </html>
