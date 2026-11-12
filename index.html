@@ -4,7 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VPN SINDH - Secure & Fast</title>
-  <link rel="manifest" href='data:application/manifest+json;charset=utf-8,{"name":"VPNSindh","short_name":"VPNSindh","start_url":"/","display":"standalone","background_color":"%23000000","theme_color":"%23000000","description":"A fast and secure VPN application for users in Sindh to browse safely and privately.","icons":[{"src":"/icon-512.png","sizes":"192x192 512x512","type":"image/png","purpose":"any maskable"}]}'>
+  <link rel="manifest" href='data:application/manifest+json;charset=utf-8,{"name":"VPNSindh","short_name":"VPNSindh","start_url":"/","display":"standalone","background_color":"%23000000","theme_color":"%23000000","description":"A fast and secure VPN application for users in Sindh to browse safely and privately.","icons":[{"src":"/icon-512.png","sizes":"512x512","type":"image/png"}]}'>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+  }
+</script>
+
 
 <script>
   if ('serviceWorker' in navigator) {
