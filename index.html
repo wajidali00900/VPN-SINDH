@@ -193,7 +193,7 @@
 
         <label style="display: block; text-align: left; font-size: 12px; color: #cbd5e1; margin-bottom: 5px;">Choose Server Location</label>
         <select id="serverSelect">
-            <option value="auto">🇸🇬 Singapore Free Node (Fast)</option>
+            <option value="auto">Loading servers...</option>
         </select>
 
         <div class="connect-container">
@@ -239,14 +239,18 @@
             }
         }
 
-        // سرورز اب ڈائریکٹ لوڈ ہوں گے، کوئی ایرر یا لوڈنگ نہیں آئے گی
+        // High-rate aur baaki tamam behtareen mulk yahan shamil hain
         function loadServers() {
             const select = document.getElementById('serverSelect');
             select.innerHTML = `
-                <option value="sg">🇸🇬 Singapore Free Node (Fast)</option>
-                <option value="de">🇩🇪 Germany High Speed Node</option>
-                <option value="us">🇺🇸 US Secure Node</option>
-                <option value="pk">🇵🇰 Pakistan High Speed Node</option>
+                <option value="sg">🇸🇬 Singapore High Speed (Best Rate)</option>
+                <option value="de">🇩🇪 Germany Secure Node (High Rate)</option>
+                <option value="us">🇺🇸 United States (Top eCPM)</option>
+                <option value="uk">🇬🇧 United Kingdom Node</option>
+                <option value="ca">🇨🇦 Canada Fast Node</option>
+                <option value="nl">🇳🇱 Netherlands Node</option>
+                <option value="au">🇦🇺 Australia Node</option>
+                <option value="pk">🇵🇰 Pakistan Local Node</option>
             `;
         }
 
@@ -261,7 +265,7 @@
             document.getElementById('upSpeed').innerText = (Math.random() * (150 - 40) + 40).toFixed(1) + ' KB/s';
         }
         
-        // Monetag ایڈ بغیر کسی رکاوٹ اور ہر کنیکٹ پر کھلنے کا فنکشن
+        // Har connect par bina kisi limit ke Monetag ad khulne ka tareeqa
         function triggerDirectAd() {
             const monetagLink = "https://uplcm.com/4/10428676";
             const a = document.createElement('a');
@@ -284,7 +288,7 @@
                 btn.style.background = 'linear-gradient(135deg, #78350f, #451a03)';
                 status.innerText = `Connecting to ${selectedServerName}...`;
 
-                // یہاں ہر کنیکٹ پر ایڈ شو ہوگا
+                // Har connect dabane par ad aayega
                 triggerDirectAd();
 
                 setTimeout(() => {
