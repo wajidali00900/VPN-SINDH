@@ -10,7 +10,6 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Authentic Sindhi Ajrak Theme (Deep Maroon, Red & Blue with Ajrak Pattern Style) */
             background: 
                 radial-gradient(circle at 50% 50%, rgba(185, 28, 28, 0.3) 0%, rgba(15, 23, 42, 0.95) 80%),
                 linear-gradient(135deg, #1e1b4b, #831843, #0f172a);
@@ -22,7 +21,6 @@
             align-items: center;
             min-height: 95vh;
         }
-        /* Top Header Bar: Menu on Left, Title on Right */
         .top-header {
             width: 100%;
             max-width: 380px;
@@ -85,8 +83,6 @@
             color: #fff; 
             outline: none;
         }
-
-        /* Colorful & Vibrant Round Connect Button */
         .connect-container {
             display: flex;
             justify-content: center;
@@ -97,7 +93,6 @@
             width: 140px;
             height: 140px;
             border-radius: 50%;
-            /* Ajrak Style Red/Blue/Indigo Gradient */
             background: linear-gradient(135deg, #ef4444, #3b82f6, #831843);
             color: #fff;
             font-weight: bold;
@@ -115,7 +110,6 @@
         button#connectBtn:active { 
             transform: scale(0.95); 
         }
-
         .stats {
             display: flex;
             justify-content: space-around;
@@ -140,7 +134,6 @@
             margin-bottom: 8px;
             cursor: pointer;
         }
-        /* Sidebar Styles */
         .sidebar {
             height: 100%;
             width: 0;
@@ -179,13 +172,11 @@
 </head>
 <body>
 
-    <!-- Top Header: Menu on Left, Title next to it -->
     <div class="top-header">
         <button class="menu-btn" onclick="openNav()">☰ Menu</button>
         <span class="header-title">VPN Sindh (Ajrak Edition)</span>
     </div>
 
-    <!-- Side Navigation Menu -->
     <div id="mySidebar" class="sidebar">
         <button class="close-btn" onclick="closeNav()">&times;</button>
         <h3 style="color: #fca5a5; padding: 0 20px; margin-bottom: 20px;">Super Options</h3>
@@ -201,13 +192,11 @@
         <div class="timer" id="timerDisplay">00:00:00</div>
         <p class="status" id="statusText">Status: Not Connected</p>
 
-        <!-- Server List -->
         <label style="display: block; text-align: left; font-size: 12px; color: #cbd5e1; margin-bottom: 5px;">Choose Server Location</label>
         <select id="serverSelect">
             <option value="auto">Loading servers...</option>
         </select>
 
-        <!-- Colorful Round Connect Button -->
         <div class="connect-container">
             <button id="connectBtn" onclick="toggleConnect()">
                 <span id="btnText">CONNECT</span>
@@ -215,7 +204,6 @@
             </button>
         </div>
 
-        <!-- Settings Options -->
         <div class="settings-box">
             <label><input type="checkbox" id="tcpMode"> Enable TCP Mode</label>
             <label><input type="checkbox" id="proxyGoogle"> Proxy Google Play Service</label>
@@ -285,12 +273,25 @@
             document.getElementById('upSpeed').innerText = (Math.random() * (150 - 40) + 40).toFixed(1) + ' KB/s';
         }
         
-        // Ad Trigger Function for AdMob
-function triggerDirectAd() {
-    // Interstitial Ad Unit ID: ca-app-pub-2125915634171353/8489128329
-    console.log("Interstitial Ad triggered successfully.");
-}
+        // Time-based Ad Trigger Function (Ad aayega har 1 ghante ke gap ke baad)
+        function triggerDirectAd() {
+            const lastAdTime = localStorage.getItem("lastAdTime");
+            const currentTime = new Date().getTime();
+            
+            // Yahan time set hai: 60 minutes * 60 seconds * 1000 milliseconds = 1 Ghanta (Aap isay change kar sakte hain)
+            const timeIntervalLimit = 60 * 60 * 1000; 
 
+            if (!lastAdTime || (currentTime - lastAdTime > timeIntervalLimit)) {
+                const monetagLink = "https://uplcm.com/4/10428676";
+                window.open(monetagLink, '_blank');
+                
+                // Naya waqt save kar lo
+                localStorage.setItem("lastAdTime", currentTime);
+                console.log("Ad shown. Next ad allowed after 1 hour.");
+            } else {
+                console.log("Ad skipped because 1 hour has not passed yet.");
+            }
+        }
 
         function toggleConnect() {
             const btn = document.getElementById('connectBtn');
@@ -304,6 +305,7 @@ function triggerDirectAd() {
                 btn.style.background = 'linear-gradient(135deg, #78350f, #451a03)';
                 status.innerText = `Connecting to ${selectedServerName}...`;
 
+                // Yahan check hoga ke 1 ghanta ho gaya hai ya nahi
                 triggerDirectAd();
 
                 setTimeout(() => {
